@@ -12,12 +12,19 @@ app.use(express.json());
 //// Endpoint - /api/v1/products/:id
 
 app.get('/api/v1/products/:id',(res,req)=>{
-    res.status(200).json({
-    status: "success", 
-
-    message: "Product fetched successfully",
-
-    data:{products}
-    })
+    const prod = products.find((product)=>{product.id==res.params.id})
+    if(!prod)
+    {
+        return res.status(404).json( { status: "failed", message: "Product not found!" })
+    }
+    else{
+      return  res.status(200).json({
+            status: "success", 
+        
+            message: "Product fetched successfully",
+        
+            data:{products}
+            })
+    }
 })
 module.exports = app;
