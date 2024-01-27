@@ -11,8 +11,11 @@ app.use(express.json());
 // GET endpoint for sending the products to client by id
 //// Endpoint - /api/v1/products/:id
 
-app.get('/api/v1/products/:id',(res,req)=>{
-    const prod = products.find((product)=>{product.id==res.params.id})
+app.get("/api/v1/products/:id",(req,res)=>{
+    let {id} = req.params;
+    id=id*1;
+    const prod = products.find((product)=>{ return product.id===id})
+    console.log(prod);
     if(!prod)
     {
         return res.status(404).json( { status: "failed", message: "Product not found!" })
@@ -23,7 +26,7 @@ app.get('/api/v1/products/:id',(res,req)=>{
         
             message: "Product fetched successfully",
         
-            data:{products}
+            data:{prod}
             })
     }
 })
